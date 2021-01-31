@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/dmitriyfilatov/ndse-homeworks/issues"
   },
-  "homepage": "https://github.com/dmitriyfilatov/ndse-homeworks#readme"
+  "homepage": "https://github.com/dmitriyfilatov/ndse-homeworks#readme",
+  "bin": {
+    "date": "date.js",
+    "number": "number.js"
+  },
+  "dependencies": {
+    "yargs": "^16.2.0"
+  }
 }
