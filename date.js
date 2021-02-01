@@ -26,18 +26,18 @@ const month = argv.month
 const date = argv.date
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+    "July", "August", "September", "October", "November", "December"
 ];
 
 source.on('message', message => {
     console.log(message)
 })
 
-if(!['current', 'add', 'sub'].includes(command)) {
+if (!['current', 'add', 'sub'].includes(command)) {
     showHelp()
 }
 
-switch(command) {
+switch (command) {
     case 'add': showFutureDate(year, month, date); break
     case 'sub': showPastDate(year, month, date); break
     case 'current': showCurrentDate(year, month, date); break
@@ -47,10 +47,10 @@ switch(command) {
 function showCurrentDate(year, month, date) {
     const currentDate = new Date()
 
-    if(!year && !month && !date) source.emit('message', currentDate.toISOString())
-    if(year) source.emit('message', `${currentDate.getFullYear()} year`)
-    if(month) source.emit('message', monthNames[currentDate.getMonth()])
-    if(date) source.emit('message', currentDate.getDate().toString())
+    if (!year && !month && !date) source.emit('message', currentDate.toISOString())
+    if (year) source.emit('message', `${currentDate.getFullYear()} year`)
+    if (month) source.emit('message', monthNames[currentDate.getMonth()])
+    if (date) source.emit('message', currentDate.getDate().toString())
 
 }
 
@@ -60,17 +60,17 @@ function showPastDate(year, month, date) {
     const subYear = d.getFullYear() - parseDateOption(year)
     const subMonth = d.getMonth() - parseDateOption(month)
     const subDate = d.getDate() - parseDateOption(date)
-    
+
     source.emit('message', makeDisplacedDate(subYear, subMonth, subDate, d))
 }
 
 function showFutureDate() {
     const d = new Date()
-    
+
     const addYear = d.getFullYear() + parseDateOption(year)
     const addMonth = d.getMonth() + parseDateOption(month)
     const addDate = d.getDate() + parseDateOption(date)
-    
+
     source.emit('message', makeDisplacedDate(addYear, addMonth, addDate, d))
 }
 
