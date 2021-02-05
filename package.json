@@ -17,10 +17,9 @@
   },
   "homepage": "https://github.com/dmitriyfilatov/ndse-homeworks#readme",
   "bin": {
-    "date": "date.js",
-    "number": "number.js"
+    "coin-toss": "coin.js"
   },
   "dependencies": {
-    "yargs": "^16.2.0"
+    "terminal-kit": "^1.47.0"
   }
 }
