@@ -21,7 +21,7 @@ const sides = ['Obverse 🦅', 'Reverse 🥇']
 const guess = { 'no': 0, 'yes': 1 }
 
 t.clear()
-t.cyan('Try to guess the side of the coin.\n')
+t.cyan('🎊 Try to guess the side of the coin 🎊\n')
 source.on('message', response => {
     let side = (Math.random() >= 0.5) * 1
     const item = response.selectedIndex
@@ -43,35 +43,36 @@ source.on('message', response => {
                 if(data) {
                     let s = JSON.parse(data)
                     t.clear().eraseLineAfter
-                        .white(`------------------------------------\n`)
-                        .blue(`Tries count: ${s.tries}\n`)
-                        .green(`Guessed: ${s.tries - (s.tries - s.guess)}\n`)
-                        .red(`Not guessed: ${s.tries - s.guess}\n`)
-                        .white(`Luck: ${(s.guess / (s.tries / 100)).toFixed(2)}%\n`)
-                        .white(`------------------------------------\n`)
+                        .white(`------------------------\n`)
+                        .blue( `Tries count ✨: ${s.tries}\n`)
+                        .green(`Guessed     ⭐: ${s.tries - (s.tries - s.guess)}\n`)
+                        .red(  `Not guessed 🔥: ${s.tries - s.guess}\n`)
+                        .white(`Luck        🍀: ${(s.guess / (s.tries / 100)).toFixed(2)}%\n`)
+                        .white(`------------------------\n`)
                     selectSide()
                 } else {
-                    t.clear().eraseLineAfter.cyan(`You don't have statistics yet\n`)
+                    t.clear().eraseLineAfter.cyan(`You don't have statistics yet ⛔\n`)
                     selectSide()
                 }
-
             })
-
     }
 
     if (item === 3) {
         t.singleColumnMenu(['NOOOOOOOOO 🙅‍', 'YEEEES 👌'], function (error, response) {
             let erase = response.selectedIndex
-            if (erase) fs.unlink(file, () => {})
-            t.clear()
+            if (erase) {
+                fs.unlink(file, () => {})
+                t.clear().eraseLineAfter.cyan(`Your statistics was erased 🗑️\n`)
+            } else {
+                t.clear().cyan('🎊 Try to guess the side of the coin 🎊\n')
+            }
             selectSide()
-
         })
     }
 
     if (item === 4) {
         t.clear()
-        t('\n').eraseLineAfter.green("Bye\n")
+        t('\n').eraseLineAfter.green("Bye 👋\n")
         process.exit()
     }
 })
