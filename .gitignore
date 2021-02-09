@@ -1,2 +1,3 @@
 node_modules
-stat.json
+.env
+config.js

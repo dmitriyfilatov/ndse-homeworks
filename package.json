@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node weather.js",
+    "dev": "node -r dotenv/config weather.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,12 @@
   },
   "homepage": "https://github.com/dmitriyfilatov/ndse-homeworks#readme",
   "bin": {
-    "coin-toss": "coin.js"
+    "weather": "weather.js"
   },
   "dependencies": {
-    "terminal-kit": "^1.47.0"
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }
