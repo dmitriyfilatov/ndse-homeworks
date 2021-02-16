@@ -1,11 +1,11 @@
 {
   "name": "ndse-homeworks",
   "version": "1.0.0",
-  "description": "",
+  "description": "homework project",
   "main": "index.js",
   "scripts": {
-    "start": "node weather.js",
-    "dev": "node -r dotenv/config weather.js"
+    "start": "node index.js",
+    "dev": "npm i -D && nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -13,17 +13,13 @@
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dmitriyfilatov/ndse-homeworks/issues"
-  },
-  "homepage": "https://github.com/dmitriyfilatov/ndse-homeworks#readme",
-  "bin": {
-    "weather": "weather.js"
-  },
   "dependencies": {
-    "yargs": "^16.2.0"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-form-data": "^2.0.14",
+    "node-unique-id-generator": "^0.1.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "nodemon": "^2.0.6"
   }
 }
