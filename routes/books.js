@@ -55,7 +55,6 @@ router.post('/create', fileMiddleware.single('fileBook'), (req, res) => {
             req.file.filename
         )
         books.push(newBook)
-        console.log(books)
     }
 
     res.redirect('/books')
