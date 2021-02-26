@@ -111,10 +111,12 @@ router.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
         const file = req.file
         const fileBook = file && file.filename ? file.filename : books[idx].fileBook
         const bookTitle = title ? title : books[idx].title
-        const bookFileName = fileName ? fileName : file.originalname
-        if(bookFileName.substr(-4) !== '.pdf') {
-            bookFileName += '.pdf'
+
+        let name = fileName ? fileName : books[idx].fileName
+        if(name.substr(-4) !== '.pdf') {
+            name += '.pdf'
         }
+        
         books[idx] = {
             ...books[idx],
             bookTitle,
@@ -122,9 +124,10 @@ router.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
             authors,
             favorite,
             fileCover,
-            bookFileName,
+            fileName: name,
             fileBook
         }
+        console.log(books[idx])
         res.redirect(`/books/${id}`)
     } else {
         res.status(404).redirect('/404')
