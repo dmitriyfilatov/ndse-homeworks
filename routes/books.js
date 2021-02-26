@@ -41,8 +41,8 @@ router.post('/create', fileMiddleware.single('fileBook'), (req, res) => {
 
     if (title && req.file) {
         let file = fileName ? fileName : req.file.originalname
-        if(file.substr(-4) !== '.txt') {
-            file += '.txt'
+        if(file.substr(-4) !== '.pdf') {
+            file += '.pdf'
         }
 
         const newBook = new Book(
@@ -108,7 +108,8 @@ router.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
     const idx = books.findIndex(el => el.id === id)
 
     if (idx !== -1) {
-        const fileBook = req.file ? req.file.filename : books[idx].fileBook
+        const file = req.file
+        const fileBook = file && file.filename ? file.filename : books[idx].fileBook
         const bookTitle = title ? title : books[idx].title
         books[idx] = {
             ...books[idx],
