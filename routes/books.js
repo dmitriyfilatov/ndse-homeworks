@@ -45,13 +45,15 @@ router.post('/', fileMiddleware.single('fileBook'), (req, res) => {
     } = req.body
 
     if (!title) {
-        res.status(304)
+        res.status(400)
         res.json('book | hasn\'t title')
+        return
     }
 
     if (!req.file) {
-        res.status(304)
-        res.json('book | hasn\'t file')
+        res.status(400)
+        res.json('book | hasn\'t file or has wrong type')
+        return
     }
 
     const newBook = new Book(
@@ -61,7 +63,7 @@ router.post('/', fileMiddleware.single('fileBook'), (req, res) => {
         favorite,
         fileCover,
         fileName,
-        req.file.filename
+        req.file.filename 
     )
 
     books.push(newBook)
@@ -87,7 +89,7 @@ router.put('/:id', fileMiddleware.single('fileBook'), (req, res) => {
 
     if (idx !== -1) {
         const file = req.file
-        const fileBook = file.filename ? file.filename : books[idx].fileBook
+        const fileBook = file && file.filename ? file.filename : books[idx].fileBook
         const bookTitle = title ? title : books[idx].title
         books[idx] = {
             ...books[idx],
