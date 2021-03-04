@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const fileMiddleware = require('./../middleware/file')
+const axios = require('axios')
 
 const { Book } = require('../models')
+const { response } = require('express')
 
 const library = {
     books: []
@@ -41,7 +43,7 @@ router.post('/create', fileMiddleware.single('fileBook'), (req, res) => {
 
     if (title && req.file) {
         let file = fileName ? fileName : req.file.originalname
-        if(file.substr(-4) !== '.pdf') {
+        if (file.substr(-4) !== '.pdf') {
             file += '.pdf'
         }
 
@@ -67,17 +69,35 @@ router.get('/:id', (req, res) => {
     const { id } = req.params
     const idx = books.findIndex(el => el.id === id)
 
-    if (idx !== -1) {
-        const resBook = JSON.parse(JSON.stringify(books[idx]))
-        delete resBook.fileBook
-        res.render("books/view", {
-            title: `Книга | ${resBook.title}`,
-            book: resBook,
-        })
-    } else {
-        res.status(404).redirect('/404')
-    }
+    getViews(id).then(views => {
+        if (idx !== -1) {
+            const resBook = JSON.parse(JSON.stringify(books[idx]))
+            delete resBook.fileBook
+            res.render("books/view", {
+                title: `Книга | ${resBook.title}`,
+                book: resBook,
+                views
+            })
+        } else {
+            res.status(404).redirect('/404')
+        }
+    });
 })
+
+async function getViews(id) {
+    try {
+        const counterUrl = `http://counter-nodejs:3001/counter/${id}/incr`
+        const response = await axios.post(counterUrl);
+        if (!response.data) {
+            return 0;
+        }
+        return response.data[id]
+
+    } catch (error) {
+        return 0;
+    }
+
+}
 
 router.get('/update/:id', (req, res) => {
     const { books } = library
@@ -113,10 +133,10 @@ router.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
         const bookTitle = title ? title : books[idx].title
 
         let name = fileName ? fileName : books[idx].fileName
-        if(name.substr(-4) !== '.pdf') {
+        if (name.substr(-4) !== '.pdf') {
             name += '.pdf'
         }
-        
+
         books[idx] = {
             ...books[idx],
             bookTitle,
@@ -127,7 +147,6 @@ router.post('/update/:id', fileMiddleware.single('fileBook'), (req, res) => {
             fileName: name,
             fileBook
         }
-        console.log(books[idx])
         res.redirect(`/books/${id}`)
     } else {
         res.status(404).redirect('/404')

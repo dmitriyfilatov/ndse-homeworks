@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+    library-nodejs:
+        build: 
+            context: ./library
+            dockerfile: dev.dockerfile
+        container_name: ndse-library-nodejs
+        restart: always
+        user: node
+        working_dir: /app/library
+        volumes:
+            - ./:/app:cached
+        ports:
+            - 3000:3000
+
+    counter-nodejs:
+        build: 
+            context: ./counter
+            dockerfile: dev.dockerfile
+        container_name: ndse-counter-nodejs
+        restart: always
+        user: node
+        working_dir: /app/counter
+        volumes:
+            - ./:/app:cached
+        ports:
+            - 3001:3001
