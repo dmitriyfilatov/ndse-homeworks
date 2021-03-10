@@ -1,29 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
+const Counter = require('./../models/Counter')
 
-const counterDbFile = './counter.json';
-
-router.post('/:bookId/incr', (req, res) => {
-
+router.post('/:bookId/incr', async (req, res) => {
     const { bookId } = req.params;
-    fs.readFile(counterDbFile, "utf8",
-        function (error, data) {
+    let views = 1;
+    try {
+        let counter = await Counter.findOneAndUpdate(
+            { bookId },
+            { $inc: { value: 1 } },
+            { useFindAndModify: false }
+        );
 
-            let counter = {};
-            counter[bookId] = 1;
+        if (counter === null) {
+            const newCounter = new Counter({ bookId });
+            await newCounter.save();
+        } else {
+            views = counter.value;
+        }
+    } catch (error) {
+        console.log(error);
+    }
 
-            if (data) {
-                counter = JSON.parse(data);
-                counter[bookId] = counter[bookId] ? counter[bookId] + 1 : 1;
-            }
-
-            fs.writeFile(counterDbFile, JSON.stringify(counter), () => {
-                res.status(200).json(counter);
-                return;
-            })
-
-        })
-})
+    res.status(200).json(views);
+});
 
 module.exports = router;

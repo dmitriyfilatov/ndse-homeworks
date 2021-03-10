@@ -5,10 +5,13 @@ services:
         build: 
             context: ./library
             dockerfile: dev.dockerfile
-        container_name: ndse-library-nodejs
+        container_name: ndse-library
         restart: always
         user: node
         working_dir: /app/library
+        environment:
+            - MONGODB_PORT=${MONGODB_PORT}
+            - MONGODB_HOST=${MONGODB_HOST}
         volumes:
             - ./:/app:cached
         ports:
@@ -18,11 +21,25 @@ services:
         build: 
             context: ./counter
             dockerfile: dev.dockerfile
-        container_name: ndse-counter-nodejs
+        container_name: ndse-counter
         restart: always
         user: node
         working_dir: /app/counter
+        environment:
+            - MONGODB_PORT=${MONGODB_PORT}
+            - MONGODB_HOST=${MONGODB_HOST}
         volumes:
             - ./:/app:cached
         ports:
             - 3001:3001
+
+    mongodb:
+        image: mongo
+        container_name: ndse-mongodb
+        restart: always
+        environment:
+            - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
+        volumes:
+            - ./database/mongodb:/data/db
+        ports:
+            - ${MONGODB_PORT}:${MONGODB_PORT}
