@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const fileMiddleware = require('./../middleware/file');
-const axios = require('axios');
-const Book = require('../models/Book');
+const fileMiddleware = require('../../middleware/file');
+// const axios = require('axios');
+const Book = require('../../models/Book');
 
 router.get('/', async (req, res) => {
     const books = await Book.find();
@@ -67,29 +67,29 @@ router.get('/:id', async (req, res) => {
         console.error(error);
         res.status(404).redirect('/404');
     }
-    const views = await getViews(id);
+    // const views = await getViews(id);
     res.render("books/view", {
         title: `Книга | ${book.title}`,
         book,
-        views
+        // views
     });
 })
 
-async function getViews(id) {
-    try {
-        const counterUrl = `http://counter-nodejs:3001/counter/${id}/incr`
-        const response = await axios.post(counterUrl);
+// async function getViews(id) {
+//     try {
+//         const counterUrl = `http://counter-nodejs:3001/counter/${id}/incr`
+//         const response = await axios.post(counterUrl);
 
-        if (!response.data) {
-            return 0;
-        }
-        return response.data;
+//         if (!response.data) {
+//             return 0;
+//         }
+//         return response.data;
 
-    } catch (error) {
-        return 0;
-    }
+//     } catch (error) {
+//         return 0;
+//     }
 
-}
+// }
 
 router.get('/update/:id', async (req, res) => {
     const { id } = req.params;

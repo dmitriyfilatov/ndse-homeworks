@@ -17,22 +17,6 @@ services:
         ports:
             - 3000:3000
 
-    counter-nodejs:
-        build: 
-            context: ./counter
-            dockerfile: dev.dockerfile
-        container_name: ndse-counter
-        restart: always
-        user: node
-        working_dir: /app/counter
-        environment:
-            - MONGODB_PORT=${MONGODB_PORT}
-            - MONGODB_HOST=${MONGODB_HOST}
-        volumes:
-            - ./:/app:cached
-        ports:
-            - 3001:3001
-
     mongodb:
         image: mongo
         container_name: ndse-mongodb
