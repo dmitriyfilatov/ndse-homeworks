@@ -1,10 +1,11 @@
-const multer = require('multer')
+import multer from 'multer'
+import {Request, Response} from 'express'
 
 const storage = multer.diskStorage({
-    destination(req, file, cb) {
+    destination(req: Request, file:any, cb: any) {
         cb(null, 'uploads/books')
     },
-    filename(req, file, cb) {
+    filename(req: Request, file: any, cb: any) {
         let date = new Date().toISOString().replace(/:/g, '-')
         cb(null, `${date}-${file.originalname}`)
     }
@@ -12,10 +13,10 @@ const storage = multer.diskStorage({
 
 const allowedTypes = ['application/pdf']
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req: Request, file: any, cb: any) => {
     cb(null, allowedTypes.includes(file.mimetype))
 }
 
-module.exports = multer({
+export default multer({
     storage, fileFilter
 })

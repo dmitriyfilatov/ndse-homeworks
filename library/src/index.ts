@@ -1,12 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser'
+import mongoose from "mongoose";
+import errorMiddleware from './middleware/error'
 
-const errorMiddleware = require('./middleware/error');
-
-const indexRouter = require('./routes/index');
-const booksRouter = require('./routes/books');
+import indexRouter from './routes/index'
+import booksRouter from './routes/books'
 
 const app = express();
 
@@ -27,7 +26,7 @@ async function init() {
         const host = process.env.MONGODB_HOST;
         const port = process.env.MONGODB_PORT;
         const db = `mongodb://${host}:${port}/${database}`;
-        await mongoose.connect(db);
+        await mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true });
 
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`)
@@ -38,7 +37,3 @@ async function init() {
 }
 
 init();
-
-
-
-
